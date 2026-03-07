@@ -1,5 +1,0 @@
-bool reset
----
-bool success
-string message
-geometry_msgs/TransformStamped transform

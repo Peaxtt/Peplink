@@ -1,4 +1,0 @@
-srv/CalculateTransformation.idl
-srv/CalculateTransformation.srv
-srv/CalculateTransformation_Request.msg
-srv/CalculateTransformation_Response.msg

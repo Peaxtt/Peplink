@@ -1,6 +1,0 @@
-setup.py
-pttep_alignment/__init__.py
-pttep_alignment.egg-info/PKG-INFO
-pttep_alignment.egg-info/SOURCES.txt
-pttep_alignment.egg-info/dependency_links.txt
-pttep_alignment.egg-info/top_level.txt
