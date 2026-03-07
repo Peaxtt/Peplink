@@ -30,10 +30,12 @@ sudo apt update && sudo apt install -y \
   libeigen-dev \
   ros-humble-geometry-msgs \
   ros-humble-nav-msgs \
-  ros-humble-std-srvs
+  ros-humble-std-srvs \
+  tmux
 
 # Build package
-cd ~/peplink
+cd ~/PaYae/Fibo-work/peplink
+source /opt/ros/humble/setup.bash
 colcon build --packages-select pttep_alignment
 source install/setup.bash
 ```
@@ -60,34 +62,64 @@ const double MAX_TIME_DIFF          = 1.0;             // Time diff threshold
 
 ## 🎮 3. How to Use (วิธีใช้งาน)
 
-การใช้งานระบบเพื่อทำ Alignment มี 3 ขั้นตอน ดังนี้:
-
-### Step 1: รัน Node
+### วิธีที่ 1: รันด้วย Tmux (รันอัตโนมัติ 2 หน้าจอ)
+เพื่อให้ง่ายต่อการดู Log และไม่ต้องเปิดหลาย Terminal คุณสามารถรันสคริปต์ตัวช่วยได้เลย (แบ่งหน้าจอซ้าย-ขวาสำหรับ GPS และ Alignment)
 ```bash
-ros2 run pttep_alignment alignment_node
+cd ~/PaYae/Fibo-work/peplink
+./start_peplink.sh
 ```
-*ระบบจะเปิดรอรับข้อมูล หากมีข้อมูลเข้า ระบบจะแจ้งเตือนว่า "Alignment Solver Ready"*
+* หากต้องการปิดทุกอย่างในครั้งเดียว (Close All):
+  ```bash
+  ./start_peplink.sh stop
+  ```
 
 ---
 
-### Step 2: บันทึกจุดอ้างอิง (Save Points)
-บังคับหุ่นยนต์ไปตามจุดต่างๆ เมื่อหุ่นยนต์ **หยุดนิ่ง** ให้เรียก Service นี้เพื่อบันทึกคู่พิกัด (ทำซ้ำอย่างน้อย **3 ครั้ง** ในพิกัดที่ต่างกัน):
+### วิธีที่ 2: รันแบบ Manual (แยก Terminal)
+หากไม่ต้องการใช้ Tmux ให้เปิด Terminal ใหม่ **3 หน้าต่าง** แล้วพิมพ์คำสั่งดังนี้:
+
+**Terminal 1 (รัน GPS):**
+```bash
+cd ~/PaYae/Fibo-work/peplink
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 run peplink_gps_driver peplink_gps_node
+```
+
+**Terminal 2 (รัน Alignment Solver):**
+```bash
+cd ~/PaYae/Fibo-work/peplink
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 run pttep_alignment alignment_node
+```
+
+**Terminal 3 (หน้าต่างสำหรับสั่งการ / Command):**
+เปิดหน้านี้ทิ้งไว้สำหรับพิมพ์คำสั่ง (ดูหัวข้อด้านล่าง)
+
+---
+
+## 🕹️ 4. คำสั่งปฏิบัติการ (Commands Cheat Sheet)
+หลังจากรันโหนดแล้ว ให้ใช้คำสั่งเหล่านี้ใน Terminal อื่น หรือหน้าต่างที่ว่างอยู่:
+
+**1. บันทึกจุดอ้างอิง (Save Points)**
+เมื่อหุ่นยนต์ **หยุดนิ่ง** ให้เรียก Service นี้เพื่อบันทึกคู่พิกัด Lidar/GPS (ทำซ้ำอย่างน้อย **3 ครั้ง** ในตำแหน่งที่ต่างกัน):
 ```bash
 ros2 service call /save_location std_srvs/srv/Trigger
 ```
 
----
-
-### Step 3: คำนวณและเปิดระบบ Real-time (Calculate)
-เมื่อเก็บจุดครบแล้ว ให้เรียก Service คำนวณ Matrix:
+**2. คำนวณและเริ่ม Real-time (Calculate)**
+เมื่อเก็บจุดครบแล้ว ให้เรียก Service คำนวณ Matrix เพื่อเริ่มต้นยิงพิกัดไปที่ `/aligned_odom`:
 ```bash
 ros2 service call /calculate_transformation pttep_alignment/srv/CalculateTransformation "{reset: false}"
 ```
-*เมื่อคำนวณสำเร็จ ระบบจะแจ้งว่า `Real-time alignment active on /aligned_odom` และเริ่มทำการ Publish ข้อมูล GPS ที่ถูกแปลงเข้าสู่เฟรม Odom ให้ทันทีที่ความถี่ของ GPS ปกติ!*
 
----
+**3. ตรวจสอบผลลัพธ์พิกัดที่แปลงแล้ว:**
+```bash
+ros2 topic echo /aligned_odom
+```
 
-### Option: Reset ข้อมูล (เริ่มใหม่)
+**Option: ล้างความจำ (Reset Data):**
 หากต้องการล้างค่าที่เคยบันทึกไว้และหยุดการทำงาน Real-time:
 ```bash
 ros2 service call /calculate_transformation pttep_alignment/srv/CalculateTransformation "{reset: true}"
