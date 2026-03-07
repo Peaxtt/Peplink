@@ -1,0 +1,4 @@
+source;share/pttep_alignment/environment/ament_prefix_path.sh
+source;share/pttep_alignment/environment/library_path.sh
+source;share/pttep_alignment/environment/path.sh
+source;share/pttep_alignment/environment/pythonpath.sh

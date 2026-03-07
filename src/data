@@ -1,0 +1,502 @@
+
+VERTEX: "1"
+header:
+  stamp:
+    sec: 1769592794
+    nanosec: 215273337
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650660999999998
+longitude: 100.49216416666668
+altitude: 14.4
+position_covariance:
+- 15.6816
+- 0.0
+- 0.0
+- 0.0
+- 15.6816
+- 0.0
+- 0.0
+- 0.0
+- 19.713599999999996
+position_covariance_type: 1
+---
+header:
+  stamp:
+    sec: 1769592795
+    nanosec: 215338288
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650661666666668
+longitude: 100.49216399999999
+altitude: 14.2
+position_covariance:
+- 15.6816
+- 0.0
+- 0.0
+- 0.0
+- 15.6816
+- 0.0
+- 0.0
+- 0.0
+- 19.713599999999996
+position_covariance_type: 1
+---
+******************************************************************
+
+"2"
+header:
+  stamp:
+    sec: 1769593029
+    nanosec: 272067471
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650390999999997
+longitude: 100.4921555
+altitude: 22.3
+position_covariance:
+- 11.696399999999999
+- 0.0
+- 0.0
+- 0.0
+- 11.696399999999999
+- 0.0
+- 0.0
+- 0.0
+- 19.713599999999996
+position_covariance_type: 1
+---
+header:
+  stamp:
+    sec: 1769593030
+    nanosec: 272177477
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650390333333332
+longitude: 100.49215600000001
+altitude: 22.3
+position_covariance:
+- 11.696399999999999
+- 0.0
+- 0.0
+- 0.0
+- 11.696399999999999
+- 0.0
+- 0.0
+- 0.0
+- 19.713599999999996
+position_covariance_type: 1
+---
+*****************************************************
+"4"
+header:
+  stamp:
+    sec: 1769593227
+    nanosec: 321816070
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.6501445
+longitude: 100.49245133333334
+altitude: 10.2
+position_covariance:
+- 12.531600000000001
+- 0.0
+- 0.0
+- 0.0
+- 12.531600000000001
+- 0.0
+- 0.0
+- 0.0
+- 27.878400000000003
+position_covariance_type: 1
+---
+header:
+  stamp:
+    sec: 1769593228
+    nanosec: 311730600
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650143833333335
+longitude: 100.49245133333334
+altitude: 10.1
+position_covariance:
+- 12.531600000000001
+- 0.0
+- 0.0
+- 0.0
+- 12.531600000000001
+- 0.0
+- 0.0
+- 0.0
+- 27.878400000000003
+position_covariance_type: 1
+---
+*******************************
+"6"
+---
+header:
+  stamp:
+    sec: 1769593455
+    nanosec: 326720809
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650231
+longitude: 100.49278083333333
+altitude: 15.3
+position_covariance:
+- 9.5481
+- 0.0
+- 0.0
+- 0.0
+- 9.5481
+- 0.0
+- 0.0
+- 0.0
+- 22.4676
+position_covariance_type: 1
+---
+header:
+  stamp:
+    sec: 1769593456
+    nanosec: 336717077
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650231833333331
+longitude: 100.49278016666668
+altitude: 15.4
+position_covariance:
+- 10.112400000000001
+- 0.0
+- 0.0
+- 0.0
+- 10.112400000000001
+- 0.0
+- 0.0
+- 0.0
+- 22.4676
+position_covariance_type: 1
+---
+****************************
+"7"
+header:
+  stamp:
+    sec: 1769593634
+    nanosec: 377039526
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650536333333331
+longitude: 100.49283566666666
+altitude: 12.7
+position_covariance:
+- 6.6564000000000005
+- 0.0
+- 0.0
+- 0.0
+- 6.6564000000000005
+- 0.0
+- 0.0
+- 0.0
+- 22.1841
+position_covariance_type: 1
+---
+header:
+  stamp:
+    sec: 1769593635
+    nanosec: 376903610
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650536499999998
+longitude: 100.49283566666666
+altitude: 12.9
+position_covariance:
+- 6.6564000000000005
+- 0.0
+- 0.0
+- 0.0
+- 6.6564000000000005
+- 0.0
+- 0.0
+- 0.0
+- 22.1841
+position_covariance_type: 1
+---
+header:
+  stamp:
+    sec: 1769593636
+    nanosec: 377006932
+  frame_id: gps_link
+status:
+  status: 0
+  service: 0
+latitude: 13.650536333333331
+longitude: 100.4928355
+altitude: 12.9
+position_covariance:
+- 7.290000000000001
+- 0.0
+- 0.0
+- 0.0
+- 7.290000000000001
+- 0.0
+- 0.0
+- 0.0
+- 22.1841
+position_covariance_type: 1
+---
+
+
+
+
+
+{'version': 17, 'type': 0, 'pcds': ['gps_test'], 'vertices': {'1': {'pos': [-0.05, 0.22, -0.13], 'pcd': 'gps_test', 'acc': 0.5, 'meta': {'type': 0, 'typeId': 0}, 'rpy': [0, 0, 0.06], 'turnable': True, 'adjustYaw': True}, '2': {'pos': [-2.24, 26.48, 0.08], 'pcd': 'gps_test', 'acc': 0.5, 'meta': {'type': 0, 'typeId': 0}, 'rpy': [0, 0, 1.79], 'turnable': True, 'adjustYaw': True}, '4': {'pos': [-37.04, 52.05, 0.72], 'pcd': 'gps_test', 'acc': 0.5, 'meta': {'type': 0, 'typeId': 0}, 'rpy': [0, 0, 2.99], 'turnable': True, 'adjustYaw': True}, '6': {'pos': [-70.35, 36.33, 1.14], 'pcd': 'gps_test', 'acc': 0.5, 'meta': {'type': 0, 'typeId': 0}, 'rpy': [0, 0, -2.24], 'turnable': True, 'adjustYaw': True}, '7': {'pos': [-77.29, 5.16, 1.29], 'pcd': 'gps_test', 'acc': 0.5, 'meta': {'type': 0, 'typeId': 0}, 'rpy': [0, 0, -1.53], 'turnable': True, 'adjustYaw': True}}, 'edges': {'1': {'v': [1, 2], 'weight': 26.35, 'turnable': True, 'meta': {'gait': 0, 'dir': 0, 'obs': 0, 'ob': [0, 0, 0, 0], 'v': 0, 'w': 0, 'h': 0}}, '6': {'v': [7, 6], 'weight': 31.93, 'turnable': True, 'meta': {'gait': 0, 'dir': 0, 'obs': 0, 'ob': [0, 0, 0, 0], 'v': 0, 'w': 0, 'h': 0}}, '7': {'v': [2, 4], 'weight': 43.18, 'turnable': True, 'meta': {'gait': 0, 'dir': 0, 'obs': 0, 'ob': [0, 0, 0, 0], 'v': 0, 'w': 0, 'h': 0}}, '8': {'v': [4, 6], 'weight': 36.83, 'turnable': True, 'meta': {'gait': 0, 'dir': 0, 'obs': 0, 'ob': [0, 0, 0, 0], 'v': 0, 'w': 0, 'h': 0}}}}
+
+
+
+
+{
+   "version":17,
+   "type":0,
+   "pcds":[
+      "gps_test"
+   ],
+   "vertices":{
+      "1":{
+         "pos":[
+            -0.05,
+            0.22,
+            -0.13
+         ],
+         "pcd":"gps_test",
+         "acc":0.5,
+         "meta":{
+            "type":0,
+            "typeId":0
+         },
+         "rpy":[
+            0,
+            0,
+            0.06
+         ],
+         "turnable":true,
+         "adjustYaw":true
+      },
+      "2":{
+         "pos":[
+            -2.24,
+            26.48,
+            0.08
+         ],
+         "pcd":"gps_test",
+         "acc":0.5,
+         "meta":{
+            "type":0,
+            "typeId":0
+         },
+         "rpy":[
+            0,
+            0,
+            1.79
+         ],
+         "turnable":true,
+         "adjustYaw":true
+      },
+      "4":{
+         "pos":[
+            -37.04,
+            52.05,
+            0.72
+         ],
+         "pcd":"gps_test",
+         "acc":0.5,
+         "meta":{
+            "type":0,
+            "typeId":0
+         },
+         "rpy":[
+            0,
+            0,
+            2.99
+         ],
+         "turnable":true,
+         "adjustYaw":true
+      },
+      "6":{
+         "pos":[
+            -70.35,
+            36.33,
+            1.14
+         ],
+         "pcd":"gps_test",
+         "acc":0.5,
+         "meta":{
+            "type":0,
+            "typeId":0
+         },
+         "rpy":[
+            0,
+            0,
+            -2.24
+         ],
+         "turnable":true,
+         "adjustYaw":true
+      },
+      "7":{
+         "pos":[
+            -77.29,
+            5.16,
+            1.29
+         ],
+         "pcd":"gps_test",
+         "acc":0.5,
+         "meta":{
+            "type":0,
+            "typeId":0
+         },
+         "rpy":[
+            0,
+            0,
+            -1.53
+         ],
+         "turnable":true,
+         "adjustYaw":true
+      }
+   },
+   "edges":{
+      "1":{
+         "v":[
+            1,
+            2
+         ],
+         "weight":26.35,
+         "turnable":true,
+         "meta":{
+            "gait":0,
+            "dir":0,
+            "obs":0,
+            "ob":[
+               0,
+               0,
+               0,
+               0
+            ],
+            "v":0,
+            "w":0,
+            "h":0
+         }
+      },
+      "6":{
+         "v":[
+            7,
+            6
+         ],
+         "weight":31.93,
+         "turnable":true,
+         "meta":{
+            "gait":0,
+            "dir":0,
+            "obs":0,
+            "ob":[
+               0,
+               0,
+               0,
+               0
+            ],
+            "v":0,
+            "w":0,
+            "h":0
+         }
+      },
+      "7":{
+         "v":[
+            2,
+            4
+         ],
+         "weight":43.18,
+         "turnable":true,
+         "meta":{
+            "gait":0,
+            "dir":0,
+            "obs":0,
+            "ob":[
+               0,
+               0,
+               0,
+               0
+            ],
+            "v":0,
+            "w":0,
+            "h":0
+         }
+      },
+      "8":{
+         "v":[
+            4,
+            6
+         ],
+         "weight":36.83,
+         "turnable":true,
+         "meta":{
+            "gait":0,
+            "dir":0,
+            "obs":0,
+            "ob":[
+               0,
+               0,
+               0,
+               0
+            ],
+            "v":0,
+            "w":0,
+            "h":0
+         }
+      }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

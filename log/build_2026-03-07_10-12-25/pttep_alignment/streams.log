@@ -1,0 +1,254 @@
+[0.015s] Invoking command in '/home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/peaxtt/PaYae/Fibo-work/peplink/src/pttep_alignment -DCMAKE_INSTALL_PREFIX=/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment
+[0.166s] -- The C compiler identification is GNU 11.4.0
+[0.297s] -- The CXX compiler identification is GNU 11.4.0
+[0.310s] -- Detecting C compiler ABI info
+[0.416s] -- Detecting C compiler ABI info - done
+[0.427s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.428s] -- Detecting C compile features
+[0.429s] -- Detecting C compile features - done
+[0.434s] -- Detecting CXX compiler ABI info
+[0.539s] -- Detecting CXX compiler ABI info - done
+[0.549s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.549s] -- Detecting CXX compile features
+[0.550s] -- Detecting CXX compile features - done
+[0.555s] -- Found ament_cmake: 1.3.13 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.808s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.956s] -- Found rclcpp: 16.0.18 (/opt/ros/humble/share/rclcpp/cmake)
+[1.030s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.038s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.054s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.075s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.106s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.182s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.186s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.321s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.361s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.413s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.427s] -- Looking for pthread.h
+[1.546s] -- Looking for pthread.h - found
+[1.547s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.655s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.657s] -- Found Threads: TRUE  
+[1.742s] -- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+[1.762s] -- Found nav_msgs: 4.9.1 (/opt/ros/humble/share/nav_msgs/cmake)
+[1.785s] -- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)
+[1.801s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[2.244s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[2.804s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.025s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.057s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[3.061s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[3.097s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[3.097s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[3.097s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[3.097s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[3.127s] -- Found PythonExtra: .so  
+[3.215s] -- Configuring done
+[3.262s] -- Generating done
+[3.278s] -- Build files have been written to: /home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment
+[3.291s] Invoked command in '/home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/peaxtt/PaYae/Fibo-work/peplink/src/pttep_alignment -DCMAKE_INSTALL_PREFIX=/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment
+[3.294s] Invoking command in '/home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment -- -j32 -l32
+[3.350s] [  3%] [34m[1mGenerating C code for ROS interfaces[0m
+[3.363s] [  6%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[3.374s] [  6%] Built target ament_cmake_python_copy_pttep_alignment
+[3.757s] running egg_info
+[3.758s] creating pttep_alignment.egg-info
+[3.759s] writing pttep_alignment.egg-info/PKG-INFO
+[3.759s] writing dependency_links to pttep_alignment.egg-info/dependency_links.txt
+[3.759s] writing top-level names to pttep_alignment.egg-info/top_level.txt
+[3.759s] writing manifest file 'pttep_alignment.egg-info/SOURCES.txt'
+[3.763s] [  6%] Built target pttep_alignment__cpp
+[3.763s] reading manifest file 'pttep_alignment.egg-info/SOURCES.txt'
+[3.763s] writing manifest file 'pttep_alignment.egg-info/SOURCES.txt'
+[3.776s] [  9%] [32mBuilding C object CMakeFiles/pttep_alignment__rosidl_generator_c.dir/rosidl_generator_c/pttep_alignment/srv/detail/calculate_transformation__functions.c.o[0m
+[3.778s] [ 12%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[3.778s] [ 15%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[3.780s] [ 18%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[3.803s] [ 18%] Built target ament_cmake_python_build_pttep_alignment_egg
+[3.887s] [ 21%] [32m[1mLinking C shared library libpttep_alignment__rosidl_generator_c.so[0m
+[3.948s] [ 21%] Built target pttep_alignment__rosidl_generator_c
+[3.962s] [ 24%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[3.963s] [ 27%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[3.963s] [ 30%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[4.103s] [ 33%] [32mBuilding CXX object CMakeFiles/pttep_alignment__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/pttep_alignment/srv/calculate_transformation__type_support.cpp.o[0m
+[4.130s] [ 36%] [32mBuilding CXX object CMakeFiles/pttep_alignment__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/pttep_alignment/srv/detail/calculate_transformation__type_support.cpp.o[0m
+[4.151s] [ 39%] [32mBuilding CXX object CMakeFiles/pttep_alignment__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/pttep_alignment/srv/detail/dds_fastrtps/calculate_transformation__type_support.cpp.o[0m
+[4.287s] [ 42%] [32mBuilding CXX object CMakeFiles/pttep_alignment__rosidl_typesupport_c.dir/rosidl_typesupport_c/pttep_alignment/srv/calculate_transformation__type_support.cpp.o[0m
+[4.323s] [ 45%] [32mBuilding C object CMakeFiles/pttep_alignment__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/pttep_alignment/srv/detail/calculate_transformation__type_support.c.o[0m
+[4.331s] [ 48%] [32mBuilding CXX object CMakeFiles/pttep_alignment__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/pttep_alignment/srv/detail/calculate_transformation__type_support_c.cpp.o[0m
+[4.347s] [ 51%] [32m[1mLinking CXX shared library libpttep_alignment__rosidl_typesupport_c.so[0m
+[4.385s] [ 54%] [32m[1mLinking C shared library libpttep_alignment__rosidl_typesupport_introspection_c.so[0m
+[4.409s] [ 54%] Built target pttep_alignment__rosidl_typesupport_c
+[4.440s] [ 54%] Built target pttep_alignment__rosidl_typesupport_introspection_c
+[4.492s] [ 57%] [32m[1mLinking CXX shared library libpttep_alignment__rosidl_typesupport_cpp.so[0m
+[4.553s] [ 57%] Built target pttep_alignment__rosidl_typesupport_cpp
+[4.584s] [ 60%] [32mBuilding CXX object CMakeFiles/alignment_node.dir/src/alignment_node.cpp.o[0m
+[4.642s] [ 63%] [32m[1mLinking CXX shared library libpttep_alignment__rosidl_typesupport_introspection_cpp.so[0m
+[4.681s] [ 66%] [32m[1mLinking CXX shared library libpttep_alignment__rosidl_typesupport_fastrtps_cpp.so[0m
+[4.734s] [ 66%] Built target pttep_alignment__rosidl_typesupport_introspection_cpp
+[4.780s] [ 69%] [32m[1mLinking CXX shared library libpttep_alignment__rosidl_typesupport_fastrtps_c.so[0m
+[4.786s] [ 69%] Built target pttep_alignment__rosidl_typesupport_fastrtps_cpp
+[4.881s] [ 69%] Built target pttep_alignment__rosidl_typesupport_fastrtps_c
+[4.910s] [ 69%] Built target pttep_alignment
+[4.941s] [ 72%] [34m[1mGenerating Python code for ROS interfaces[0m
+[5.393s] [ 72%] Built target pttep_alignment__py
+[5.425s] [ 75%] [32mBuilding C object CMakeFiles/pttep_alignment__rosidl_generator_py.dir/rosidl_generator_py/pttep_alignment/srv/_calculate_transformation_s.c.o[0m
+[5.581s] [ 78%] [32m[1mLinking C shared library rosidl_generator_py/pttep_alignment/libpttep_alignment__rosidl_generator_py.so[0m
+[5.643s] [ 78%] Built target pttep_alignment__rosidl_generator_py
+[5.673s] [ 81%] [32mBuilding C object CMakeFiles/pttep_alignment__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/pttep_alignment/_pttep_alignment_s.ep.rosidl_typesupport_c.c.o[0m
+[5.673s] [ 84%] [32mBuilding C object CMakeFiles/pttep_alignment__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/pttep_alignment/_pttep_alignment_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[5.674s] [ 87%] [32mBuilding C object CMakeFiles/pttep_alignment__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/pttep_alignment/_pttep_alignment_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[5.807s] [ 90%] [32m[1mLinking C shared library rosidl_generator_py/pttep_alignment/pttep_alignment_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[5.807s] [ 93%] [32m[1mLinking C shared library rosidl_generator_py/pttep_alignment/pttep_alignment_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[5.810s] [ 96%] [32m[1mLinking C shared library rosidl_generator_py/pttep_alignment/pttep_alignment_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[5.870s] [ 96%] Built target pttep_alignment__rosidl_typesupport_c__pyext
+[5.870s] [ 96%] Built target pttep_alignment__rosidl_typesupport_fastrtps_c__pyext
+[5.870s] [ 96%] Built target pttep_alignment__rosidl_typesupport_introspection_c__pyext
+[26.862s] [100%] [32m[1mLinking CXX executable alignment_node[0m
+[27.895s] [100%] Built target alignment_node
+[27.913s] Invoked command in '/home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment -- -j32 -l32
+[27.927s] Invoking command in '/home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment
+[27.936s] -- Install configuration: ""
+[27.936s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/ament_index/resource_index/rosidl_interfaces/pttep_alignment
+[27.936s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment
+[27.937s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv
+[27.937s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/calculate_transformation.h
+[27.937s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail
+[27.937s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__functions.h
+[27.937s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__functions.c
+[27.937s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__struct.h
+[27.938s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__type_support.h
+[27.938s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg
+[27.938s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg/rosidl_generator_c__visibility_control.h
+[27.938s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/library_path.sh
+[27.938s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/library_path.dsv
+[27.938s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_generator_c.so
+[27.938s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_generator_c.so" to ""
+[27.938s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment
+[27.938s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv
+[27.939s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail
+[27.939s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__rosidl_typesupport_fastrtps_c.h
+[27.939s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg
+[27.939s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[27.939s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_fastrtps_c.so
+[27.939s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_fastrtps_c.so" to ""
+[27.939s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment
+[27.939s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv
+[27.939s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/calculate_transformation.hpp
+[27.939s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail
+[27.939s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__type_support.hpp
+[27.940s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__traits.hpp
+[27.940s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__struct.hpp
+[27.940s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__builder.hpp
+[27.940s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg
+[27.940s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg/rosidl_generator_cpp__visibility_control.hpp
+[27.940s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment
+[27.940s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv
+[27.940s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail
+[27.940s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__rosidl_typesupport_fastrtps_cpp.hpp
+[27.940s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/dds_fastrtps
+[27.941s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg
+[27.941s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[27.941s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_fastrtps_cpp.so
+[27.941s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_fastrtps_cpp.so" to ""
+[27.941s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment
+[27.942s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv
+[27.942s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail
+[27.942s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__rosidl_typesupport_introspection_c.h
+[27.942s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__type_support.c
+[27.942s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg
+[27.942s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[27.942s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_introspection_c.so
+[27.943s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_introspection_c.so" to ""
+[27.943s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_c.so
+[27.943s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_c.so" to ""
+[27.943s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment
+[27.943s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv
+[27.943s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail
+[27.943s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__type_support.cpp
+[27.943s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/include/pttep_alignment/pttep_alignment/srv/detail/calculate_transformation__rosidl_typesupport_introspection_cpp.hpp
+[27.944s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_introspection_cpp.so
+[27.944s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_introspection_cpp.so" to ""
+[27.944s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_cpp.so
+[27.945s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_typesupport_cpp.so" to ""
+[27.945s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/pythonpath.sh
+[27.945s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/pythonpath.dsv
+[27.945s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment-1.2.0-py3.10.egg-info
+[27.945s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment-1.2.0-py3.10.egg-info/top_level.txt
+[27.945s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment-1.2.0-py3.10.egg-info/SOURCES.txt
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment-1.2.0-py3.10.egg-info/dependency_links.txt
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment-1.2.0-py3.10.egg-info/PKG-INFO
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/_pttep_alignment_s.ep.rosidl_typesupport_fastrtps_c.c
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/__init__.py
+[27.946s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv
+[27.947s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv/__init__.py
+[27.947s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv/_calculate_transformation_s.c
+[27.947s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv/_calculate_transformation.py
+[27.947s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[27.947s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/_pttep_alignment_s.ep.rosidl_typesupport_c.c
+[27.947s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/_pttep_alignment_s.ep.rosidl_typesupport_introspection_c.c
+[27.948s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/libpttep_alignment__rosidl_generator_py.so
+[27.948s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[28.001s] Listing '/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment'...
+[28.001s] Compiling '/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/__init__.py'...
+[28.001s] Listing '/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv'...
+[28.001s] Compiling '/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv/__init__.py'...
+[28.001s] Compiling '/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/srv/_calculate_transformation.py'...
+[28.008s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[28.009s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[28.009s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[28.009s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[28.009s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[28.009s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/local/lib/python3.10/dist-packages/pttep_alignment/pttep_alignment_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[28.010s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_generator_py.so
+[28.010s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/libpttep_alignment__rosidl_generator_py.so" to ""
+[28.010s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/srv/CalculateTransformation.idl
+[28.010s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/srv/CalculateTransformation.srv
+[28.010s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/srv/CalculateTransformation_Request.msg
+[28.011s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/srv/CalculateTransformation_Response.msg
+[28.011s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/pttep_alignment/alignment_node
+[28.019s] -- Set runtime path of "/home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/lib/pttep_alignment/alignment_node" to ""
+[28.019s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/srv
+[28.019s] -- Up-to-date: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/srv/CalculateTransformation.srv
+[28.019s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/ament_index/resource_index/package_run_dependencies/pttep_alignment
+[28.019s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/ament_index/resource_index/parent_prefix_path/pttep_alignment
+[28.019s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/ament_prefix_path.sh
+[28.019s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/ament_prefix_path.dsv
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/path.sh
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/environment/path.dsv
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/local_setup.bash
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/local_setup.sh
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/local_setup.zsh
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/local_setup.dsv
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/package.dsv
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/ament_index/resource_index/packages/pttep_alignment
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_generator_cExport.cmake
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_generator_cExport-noconfig.cmake
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_typesupport_fastrtps_cExport.cmake
+[28.020s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_generator_cppExport.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_typesupport_fastrtps_cppExport.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_introspection_cExport.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_cExport.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_cExport-noconfig.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_introspection_cppExport.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_cppExport.cmake
+[28.021s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignment__rosidl_typesupport_cppExport-noconfig.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_generator_pyExport.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/export_pttep_alignment__rosidl_generator_pyExport-noconfig.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/rosidl_cmake-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/ament_cmake_export_dependencies-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/ament_cmake_export_include_directories-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/ament_cmake_export_libraries-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/ament_cmake_export_targets-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[28.022s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignmentConfig.cmake
+[28.023s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/cmake/pttep_alignmentConfig-version.cmake
+[28.023s] -- Installing: /home/peaxtt/PaYae/Fibo-work/peplink/install/pttep_alignment/share/pttep_alignment/package.xml
+[28.026s] Invoked command in '/home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/peaxtt/PaYae/Fibo-work/peplink/build/pttep_alignment

@@ -1,0 +1,20 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from pttep_alignment/srv/CalculateTransformation.srv
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/TransformStamped.idl"
+
+module pttep_alignment {
+  module srv {
+    struct CalculateTransformation_Request {
+      boolean reset;
+    };
+    struct CalculateTransformation_Response {
+      boolean success;
+
+      string message;
+
+      geometry_msgs::msg::TransformStamped transform;
+    };
+  };
+};

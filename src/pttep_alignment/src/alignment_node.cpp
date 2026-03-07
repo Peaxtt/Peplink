@@ -15,6 +15,7 @@ class AlignmentSolver : public rclcpp::Node {
     // =========================================================
     const std::string TOPIC_LIDAR = "/current_pose"; 
     const std::string TOPIC_GPS   = "/odom";         
+    const std::string TOPIC_ALIGNED_GPS = "/aligned_odom"; // NEW
     const double MAX_TIME_DIFF    = 1.0;             
     // =========================================================
 
@@ -32,19 +33,27 @@ public:
             TOPIC_GPS, 10, 
             [this](const nav_msgs::msg::Odometry::SharedPtr msg) {
                 last_gps_msg_ = msg;
+                if (is_aligned_) {
+                    publish_aligned_gps(msg);
+                }
             });
 
-        // 3. Service Save
+        // 3. Publisher for Aligned GPS
+        pub_aligned_gps_ = create_publisher<nav_msgs::msg::Odometry>(TOPIC_ALIGNED_GPS, 10);
+
+        // 4. Service Save
         srv_save_ = create_service<std_srvs::srv::Trigger>(
             "/save_location", 
             std::bind(&AlignmentSolver::on_save_location, this, std::placeholders::_1, std::placeholders::_2));
             
-        // 4. Service Calculate
+        // 5. Service Calculate
         srv_calc_ = create_service<pttep_alignment::srv::CalculateTransformation>(
             "/calculate_transformation",
             std::bind(&AlignmentSolver::on_calculate, this, std::placeholders::_1, std::placeholders::_2));
 
         RCLCPP_INFO(this->get_logger(), "Alignment Solver Ready");
+        RCLCPP_INFO(this->get_logger(), "Listening to GPS: %s | Lidar: %s", TOPIC_GPS.c_str(), TOPIC_LIDAR.c_str());
+        RCLCPP_INFO(this->get_logger(), "Publishing Aligned Odom to: %s", TOPIC_ALIGNED_GPS.c_str());
     }
 
 private:
@@ -57,8 +66,68 @@ private:
 
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr sub_lidar_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_gps_;
+    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pub_aligned_gps_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_save_;
     rclcpp::Service<pttep_alignment::srv::CalculateTransformation>::SharedPtr srv_calc_;
+
+    // --- State for Real-time Alignment ---
+    bool is_aligned_ = false;
+    Eigen::Matrix2d R_align_;
+    Eigen::Vector2d t_align_;
+
+    // --- Core Logic: Publish Real-time Aligned GPS ---
+    void publish_aligned_gps(const nav_msgs::msg::Odometry::SharedPtr msg) {
+        if (!is_aligned_) return;
+
+        // 1. Get current GPS XY (from /odom topic)
+        Eigen::Vector2d curr_gps(msg->pose.pose.position.x, msg->pose.pose.position.y);
+
+        // 2. Transform Position: p_aligned = R * p_gps + t
+        Eigen::Vector2d aligned_pos = R_align_ * curr_gps + t_align_;
+
+        // 3. Transform Covariance: Cov_aligned = R * Cov_gps * R^T
+        Eigen::Matrix2d cov_gps;
+        cov_gps << msg->pose.covariance[0], msg->pose.covariance[1],
+                   msg->pose.covariance[6], msg->pose.covariance[7];
+        
+        Eigen::Matrix2d cov_aligned = R_align_ * cov_gps * R_align_.transpose();
+
+        // 4. Transform Orientation (Yaw)
+        // Extract original yaw from quaternion
+        double siny_cosp = 2 * (msg->pose.pose.orientation.w * msg->pose.pose.orientation.z + msg->pose.pose.orientation.x * msg->pose.pose.orientation.y);
+        double cosy_cosp = 1 - 2 * (msg->pose.pose.orientation.y * msg->pose.pose.orientation.y + msg->pose.pose.orientation.z * msg->pose.pose.orientation.z);
+        double original_yaw = std::atan2(siny_cosp, cosy_cosp);
+
+        // Add matrix rotation angle
+        double rotation_angle = std::atan2(R_align_(1,0), R_align_(0,0));
+        double new_yaw = original_yaw + rotation_angle;
+
+        // 5. Construct new message
+        auto aligned_msg = std::make_shared<nav_msgs::msg::Odometry>(*msg); // Copy original (header, twist, etc.)
+        
+        // Update Header Frame ID (Usually to match Lidar/Map frame)
+        aligned_msg->header.frame_id = last_lidar_msg_ ? last_lidar_msg_->header.frame_id : "map";
+
+        // Update Position
+        aligned_msg->pose.pose.position.x = aligned_pos.x();
+        aligned_msg->pose.pose.position.y = aligned_pos.y();
+        aligned_msg->pose.pose.position.z = msg->pose.pose.position.z; // Keep Z same
+
+        // Update Orientation (Quaternion from new yaw)
+        aligned_msg->pose.pose.orientation.x = 0.0;
+        aligned_msg->pose.pose.orientation.y = 0.0;
+        aligned_msg->pose.pose.orientation.z = std::sin(new_yaw / 2.0);
+        aligned_msg->pose.pose.orientation.w = std::cos(new_yaw / 2.0);
+
+        // Update Covariance Elements (Keep others unchanged or set to 0 as needed)
+        // Row-major 6x6 matrix: index = row * 6 + col
+        aligned_msg->pose.covariance[0] = cov_aligned(0,0); // XX
+        aligned_msg->pose.covariance[1] = cov_aligned(0,1); // XY
+        aligned_msg->pose.covariance[6] = cov_aligned(1,0); // YX
+        aligned_msg->pose.covariance[7] = cov_aligned(1,1); // YY
+
+        pub_aligned_gps_->publish(*aligned_msg);
+    }
 
     // --- Save Location Logic ---
     void on_save_location(const std_srvs::srv::Trigger::Request::SharedPtr, 
@@ -117,8 +186,9 @@ private:
         
         if (req->reset) {
             pts_lidar_.clear(); pts_gps_.clear(); weights_.clear();
+            is_aligned_ = false;
             res->success = true; 
-            res->message = "Memory Cleared.";
+            res->message = "Memory Cleared and Alignment Stopped.";
             RCLCPP_INFO(this->get_logger(), "Memory Cleared.");
             return;
         }
@@ -131,6 +201,11 @@ private:
         }
 
         auto [R, t] = compute_weighted_svd();
+        
+        // Save to state for real-time publishing
+        R_align_ = R;
+        t_align_ = t;
+        is_aligned_ = true;
         
         res->transform.header.stamp = this->now();
         res->transform.header.frame_id = last_gps_msg_->header.frame_id;
@@ -145,7 +220,7 @@ private:
         res->transform.transform.rotation.w = std::cos(yaw / 2.0);
 
         res->success = true;
-        res->message = "Matrix Calculated.";
+        res->message = "Matrix Calculated & Real-time Alignment Started.";
 
         // print Matrix
         std::stringstream ss;
@@ -155,6 +230,7 @@ private:
         ss << "[ " << R(1,0) << ", " << R(1,1) << ", " << t.y() << " ]\n";
         ss << "[ 0.0000, 0.0000, 1.0000 ]\n";
         RCLCPP_INFO(this->get_logger(), "%s", ss.str().c_str());
+        RCLCPP_INFO(this->get_logger(), "Real-time alignment active on %s", TOPIC_ALIGNED_GPS.c_str());
     }
 
     std::pair<Eigen::Matrix2d, Eigen::Vector2d> compute_weighted_svd() {
@@ -175,7 +251,7 @@ private:
             Eigen::Matrix2d V = svd.matrixV(); V.col(1) *= -1;
             R = V * svd.matrixU().transpose();
         }
-        return {R, c_g - R * c_l};
+        return {R, c_l - R * c_g}; // NOTE: Target is Lidar(c_l), Source is GPS(c_g)
     }
 };
 
