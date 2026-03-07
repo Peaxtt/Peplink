@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =========================================================================
-# PEPLINK GPS & ALIGNMENT STARTUP SCRIPT (TMUX)
+# PEPLINK GPS & ALIGNMENT STARTUP SCRIPT
 # =========================================================================
 
 # Ensure we are in the correct directory
@@ -17,6 +17,35 @@ if [ ! -f "install/setup.bash" ]; then
         echo "Build failed. Please check the errors."
         exit 1
     fi
+fi
+
+# Check if tmux is installed
+if ! command -v tmux &> /dev/null
+then
+    echo -e "\033[1;33m[Warning] tmux is not installed. \033[0m"
+    echo -e "To get the best experience (split windows), please install it using:"
+    echo -e "   \033[1;32msudo apt update && sudo apt install tmux\033[0m\n"
+    
+    echo "Starting nodes in background jobs instead..."
+    source /opt/ros/humble/setup.bash
+    source install/setup.bash
+    
+    # Run GPS Node in background
+    ros2 run peplink_gps_driver peplink_gps_node &
+    PID_GPS=$!
+    
+    # Run Alignment Node in background
+    ros2 run pttep_alignment alignment_node &
+    PID_ALIGN=$!
+    
+    echo -e "\n\033[1;32mBoth nodes are running in the background.\033[0m"
+    echo -e "To view logs, you can use: \033[1;36mros2 topic echo /aligned_odom\033[0m"
+    echo -e "Press [CTRL+C] to stop both nodes.\n"
+    
+    # Wait for user interrupt to kill background processes
+    trap "kill $PID_GPS $PID_ALIGN; exit" INT
+    wait
+    exit 0
 fi
 
 SESSION_NAME="peplink_alignment"
