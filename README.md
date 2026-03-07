@@ -9,7 +9,7 @@
 ## 🌟 ฟีเจอร์หลัก (Key Features)
 
 1. **UDP NMEA Streamer:** อ่านข้อมูล GPS สดๆ จากตัวกระจายสัญญาณ Peplink ผ่าน Port `8384` 
-2. **Covariance Calculation:** คำนวณค่าความคลาดเคลื่อนทางตำแหน่ง (Error Ellipse) แบบเรียลไทม์โดยอ้างอิงจากค่า GPGST และ DOP
+2. **Covariance Extraction:** ดึงค่าความคลาดเคลื่อนทางตำแหน่ง (Error Ellipse) แบบเรียลไทม์โดยอ้างอิงจากค่า GPGST และ DOP มาใส่ไว้ในเซนเซอร์มาตรฐาน
 3. **Automated Transformation (SVD):** ผู้ใช้สามารถบังคับหุ่นยนต์ไปตามจุดต่างๆ และกดบันทึกพิกัด ระบบจะใช้ระเบียบวิธี SVD (Singular Value Decomposition) เพื่อหาความสัมพันธ์ของ Matrix $R$ (หมุน) และ $t$ (เลื่อน)
 4. **Real-time Alignment Publisher:** ระบบสามารถหมุนแกนพิกัดและแกนของความคลาดเคลื่อน (Covariance Rotation) เพื่อ Publish พิกัดใหม่ที่พร้อมให้ Navigation Stack นำไปใช้งานได้ทันทีใน Topic `/aligned_odom` (10Hz)
 
@@ -102,8 +102,8 @@ ros2 topic echo /aligned_odom
 
 | ประเภทข้อมูล | ชื่อ Topic | ชนิดของ Message (ROS 2) | หน้าที่ |
 | :--- | :--- | :--- | :--- |
-| **Raw GPS Data** | `/fix` | `sensor_msgs/NavSatFix` | ข้อมูลดิบจาก Peplink พร้อมค่า **Covariance** (ยังไม่แปลงพิกัด) เหมาะสำหรับดู Lat/Lon แท้ |
-| **Input GPS Odom** | `/odom` | `nav_msgs/Odometry` | ข้อมูล GPS ที่ถูกแปลงเป็น Local XY เบื้องต้น (ยังไม่หมุนแกนให้ตรงกับ Lidar) |
+| **Raw GPS Data** | `/fix` | `sensor_msgs/NavSatFix` | ข้อมูลดิบจาก Peplink พร้อมค่า **Covariance** (ค่า Error สกัดจาก GPGST) เหมาะสำหรับดู Lat/Lon แท้ |
+| **Input GPS Odom** | `/odom` | `nav_msgs/Odometry` | ข้อมูล GPS ที่ถูกแปลงเป็น Local XY เบื้องต้น พร้อมแนบค่า Covariance จากตัวรับสัญญาณ |
 | **Input Lidar Odom**| `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` | ข้อมูลตำแหน่งจาก Lidar หรือ SLAM สำหรับใช้เป็นเป้าหมายในการทาบทับ |
 | **Output Aligned** | `/aligned_odom` | `nav_msgs/Odometry` | **(✨ สำคัญ)** ข้อมูลที่ผ่านการหมุนแกนพิกัดและ **Covariance Rotation** แล้ว พร้อมใช้เดินรถ |
 
