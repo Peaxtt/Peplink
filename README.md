@@ -98,10 +98,13 @@ ros2 topic echo /aligned_odom
 
 ## ⚙️ โครงสร้างของข้อมูล (Topic Interface)
 
-| ประเภทข้อมูล | ชื่อ Topic | ชนิดของ Message (ROS 2) |
-| :--- | :--- | :--- |
-| **Input Lidar Odom** | `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` |
-| **Input GPS Odom** | `/odom` | `nav_msgs/Odometry` |
-| **Output Aligned Odom** | `/aligned_odom` | `nav_msgs/Odometry` |
+การเชื่อมต่อและดึงข้อมูลของระบบ (Topic) จะถูกแบ่งตามระดับการทำงานดังนี้:
+
+| ประเภทข้อมูล | ชื่อ Topic | ชนิดของ Message (ROS 2) | หน้าที่ |
+| :--- | :--- | :--- | :--- |
+| **Raw GPS Data** | `/fix` | `sensor_msgs/NavSatFix` | ข้อมูลดิบจาก Peplink พร้อมค่า **Covariance** (ยังไม่แปลงพิกัด) เหมาะสำหรับดู Lat/Lon แท้ |
+| **Input GPS Odom** | `/odom` | `nav_msgs/Odometry` | ข้อมูล GPS ที่ถูกแปลงเป็น Local XY เบื้องต้น (ยังไม่หมุนแกนให้ตรงกับ Lidar) |
+| **Input Lidar Odom**| `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` | ข้อมูลตำแหน่งจาก Lidar หรือ SLAM สำหรับใช้เป็นเป้าหมายในการทาบทับ |
+| **Output Aligned** | `/aligned_odom` | `nav_msgs/Odometry` | **(✨ สำคัญ)** ข้อมูลที่ผ่านการหมุนแกนพิกัดและ **Covariance Rotation** แล้ว พร้อมใช้เดินรถ |
 
 *(คุณสามารถเปลี่ยนชื่อ Topic เหล่านี้ได้ในไฟล์ `src/pttep_alignment/src/alignment_node.cpp`)*
