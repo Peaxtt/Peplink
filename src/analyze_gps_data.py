@@ -103,8 +103,9 @@ class GpsDataAnalyzer(Node):
             
             log_msg = (
                 f"ID: {pt['id']:02d} | "
-                f"Local XY: [{local_x:7.2f}, {local_y:7.2f}] m | "
+                f"XY: [{local_x:7.2f}, {local_y:7.2f}] m | "
                 f"Cov(XX,YY): [{cov_xx:5.2f}, {cov_yy:5.2f}] | "
+                f"Type: {pt['cov_type']} | "
                 f"Err: {pt['error_mag']:.2f}"
             )
             
