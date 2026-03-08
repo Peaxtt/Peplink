@@ -95,6 +95,27 @@ python3 src/analyze_gps_data.py src/data
 
 ---
 
+## 🛠️ การตั้งค่าหน้างาน (Configuration)
+
+หากต้องการปรับแก้พารามิเตอร์ต่างๆ ให้เข้ากับสถาปัตยกรรมของหุ่นยนต์ (เช่น เปลี่ยนชื่อ Topic, ปรับพอร์ต) สามารถเข้าไปแก้ไขตัวแปรในกลุ่ม `USER CONFIGURATION` ที่ส่วนหัวของโค้ดได้โดยตรง:
+
+**1. ตั้งค่าฝั่ง GPS (`src/peplink_gps_node/src/peplink_gps_node.cpp`)**
+```cpp
+const int MY_UDP_PORT = 8384;               // พอร์ตที่รับจาก Peplink
+const std::string MY_FRAME_ID = "gps_link"; // ชื่อ Frame ของเสา GPS
+const double YAW_OFFSET = 0.0;              // ชดเชยองศาของทิศเหนือ (rad) 
+```
+
+**2. ตั้งค่าฝั่ง Alignment (`src/pttep_alignment/src/alignment_node.cpp`)**
+```cpp
+const std::string TOPIC_LIDAR = "/current_pose"; // Topic อ้างอิงจากแผนที่หุ่นยนต์
+const std::string TOPIC_GPS   = "/odom";         // (ไม่ต้องแก้) รับค่า Local Odom 
+const std::string TOPIC_ALIGNED_GPS = "/aligned_odom"; // Topic ขาออกที่พร้อมใช้งาน
+```
+*💡 หมายเหตุ: ทุกครั้งที่มีการแก้ไขไฟล์ `.cpp` ต้องรันคำสั่ง `colcon build` ใหม่เสมอ*
+
+---
+
 ## ⚙️ โครงสร้างข้อมูล (Topic Interface)
 
 ระบบเผยแพร่ข้อมูล (Topics) ที่พร้อมให้ทีม Navigation นำไปปรับใช้ตามความเหมาะสมของสถาปัตยกรรมหุ่นยนต์:
