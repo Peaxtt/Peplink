@@ -8,12 +8,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 add_executable(peplink_gps_node src/peplink_gps_node.cpp)
 target_include_directories(peplink_gps_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(peplink_gps_node rclcpp sensor_msgs)
+ament_target_dependencies(peplink_gps_node rclcpp sensor_msgs nav_msgs)
 
 # Install
 install(TARGETS peplink_gps_node

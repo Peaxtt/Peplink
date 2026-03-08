@@ -4,14 +4,15 @@
 ![C++](https://img.shields.io/badge/C++-14-blue)
 ![Python](https://img.shields.io/badge/Python-3-yellow)
 
-โปรเจคนี้คือระบบประมวลผลและแปลงพิกัดข้อมูลดาวเทียมความแม่นยำสูง (High-Precision GPS) สำหรับหุ่นยนต์อัตโนมัติ (AMR) ที่ทำงานในสภาพแวดล้อมนอกอาคาร โดยระบบจะอ่านข้อมูล NMEA 0183 ผ่านโปรโตคอล UDP จากอุปกรณ์ **Peplink BR2 Pro** และทำการแปลงพิกัดภูมิศาสตร์ (Lat/Lon) ให้ทาบทับกับระบบพิกัดอ้างอิง (Odometry / Lidar) ของหุ่นยนต์โดยอัตโนมัติ
+โปรเจกต์นี้คือระบบประมวลผลและแปลงพิกัดข้อมูลดาวเทียมความแม่นยำสูง (High-Precision GPS) สำหรับหุ่นยนต์อัตโนมัติ (AMR) ที่ทำงานในสภาพแวดล้อมนอกอาคาร ระบบถูกออกแบบมาให้ **"ทำงานจบในตัว (Stand-alone)"** โดยอ่านข้อมูล NMEA 0183 ผ่านโปรโตคอล UDP จากอุปกรณ์ **Peplink BR2 Pro** แล้วแปลงพิกัดโลก (Lat/Lon) ให้กลายเป็นพิกัดบนพื้นราบ (Local Cartesian XY) พร้อมระบบดัดพิกัด (Alignment) เพื่อทาบทับกับแผนที่ Lidar ของหุ่นยนต์ได้อย่างสมบูรณ์ โดยไม่ต้องพึ่งพาระบบ TF ภายนอกในขั้นตอนการเริ่มต้น
 
 ## 🌟 ฟีเจอร์หลัก (Key Features)
 
-1. **UDP NMEA Streamer:** อ่านข้อมูล GPS สดๆ จากตัวกระจายสัญญาณ Peplink ผ่าน Port `8384` 
-2. **Covariance Extraction:** ดึงค่าความคลาดเคลื่อนทางตำแหน่ง (Error Ellipse) แบบเรียลไทม์โดยอ้างอิงจากค่า GPGST และ DOP มาใส่ไว้ในเซนเซอร์มาตรฐาน
-3. **Automated Transformation (SVD):** ผู้ใช้สามารถบังคับหุ่นยนต์ไปตามจุดต่างๆ และกดบันทึกพิกัด ระบบจะใช้ระเบียบวิธี SVD (Singular Value Decomposition) เพื่อหาความสัมพันธ์ของ Matrix $R$ (หมุน) และ $t$ (เลื่อน)
-4. **Real-time Alignment Publisher:** ระบบสามารถหมุนแกนพิกัดและแกนของความคลาดเคลื่อน (Covariance Rotation) เพื่อ Publish พิกัดใหม่ที่พร้อมให้ Navigation Stack นำไปใช้งานได้ทันทีใน Topic `/aligned_odom` (10Hz)
+1. **UDP NMEA Streamer & Covariance Extraction:** อ่านข้อมูล GPS สดจาก Peplink ผ่าน Port `8384` และดึงค่าความคลาดเคลื่อน (Error Ellipse) แบบเรียลไทม์จาก GPGST/DOP
+2. **Built-in UTM Transformation & Auto-Datum:** แปลง Lat/Lon เป็น UTM (Easting/Northing) ให้อัตโนมัติ พร้อมระบบ **"Stable Auto-Datum"** ที่จะคัดกรองสัญญาณ GPS ที่นิ่งพอ (เช่น Error < 4m หรือ HDOP < 2.0) เพื่อยึดเป็นจุดกำเนิด (0,0) ทันทีตอนเปิดเครื่อง
+3. **Automated Alignment (SVD):** สามารถเดินหุ่นยนต์เก็บจุด Waypoint แล้วกดคำนวณด้วยสมการ Weighted SVD เพื่อหา Matrix การหมุนและเลื่อน (Rotation & Translation) ที่แม่นยำที่สุด
+4. **Real-time Covariance & Pose Rotation:** พ่นค่าพิกัด XY พร้อมค่า Covariance ที่ดัดให้ตรงกับทิศทางแผนที่หุ่นยนต์แล้วผ่าน Topic `/aligned_odom` (10Hz) เพื่อให้ระบบนำทาง (เช่น EKF) ใช้งานได้ทันที
+5. **Data Analysis Script:** มาพร้อมสคริปต์ Python สำหรับรันวิเคราะห์ไฟล์ Log GPS ย้อนหลัง เพื่อหาจุด Origin ที่ดีที่สุดและแปลงค่า XY สำหรับการประเมินความแม่นยำ
 
 ---
 
@@ -21,15 +22,14 @@
 เปิด Terminal และรันคำสั่งเพื่อติดตั้งเครื่องมือพื้นฐาน:
 ```bash
 sudo apt update
-sudo apt install -y build-essential git tmux libeigen-dev
+sudo apt install -y build-essential git tmux libeigen-dev python3-pip
 sudo apt install -y ros-humble-geometry-msgs ros-humble-nav-msgs ros-humble-std-srvs
+pip install pyproj utm
 ```
 
 ### 1.2 โคลนและ Build โปรเจค (Clone & Build)
-เนื่องจากโปรเจคนี้ประกอบด้วยหลาย ROS 2 Packages คุณสามารถรันสคริปต์อัตโนมัติที่เราเตรียมไว้ให้ได้เลย:
-
 ```bash
-# 1. โคลน Repository ไปไว้ในเครื่อง (ตัวอย่างไว้ที่ Home)
+# 1. โคลน Repository ไปไว้ในเครื่อง
 cd ~
 git clone https://github.com/Peaxtt/Peplink.git
 
@@ -42,69 +42,57 @@ cd Peplink
 
 ## 🚀 2. การเริ่มต้นระบบ (How to Run)
 
-เราออกแบบระบบให้เริ่มต้นทำงานได้ง่ายที่สุดผ่าน `tmux` โดยแบ่งการควบคุมออกเป็น 2 วิธี:
+เราออกแบบระบบให้เริ่มต้นทำงานได้ง่ายที่สุดผ่าน `tmux`:
 
-### วิธีที่ 1: รันด้วยสคริปต์อัตโนมัติ (แนะนำ ⭐)
+### รันด้วยสคริปต์อัตโนมัติ (แนะนำ ⭐)
 เปิด Terminal และใช้คำสั่งนี้คำสั่งเดียว:
 ```bash
 cd ~/Peplink
 ./start_peplink.sh
 ```
-*ระบบจะเปิดหน้าต่างขึ้นมา 2 ฝั่ง (ซ้าย: GPS, ขวา: Alignment Solver) หากต้องการปิดการทำงานทุกอย่าง ให้รันคำสั่ง ` ./start_peplink.sh stop ` ใน Terminal หน้าต่างใหม่*
+*ระบบจะเปิดหน้าต่าง 2 ฝั่ง (ซ้าย: GPS, ขวา: Alignment Solver) หากต้องการปิด ให้รัน `./start_peplink.sh stop`*
 
-### วิธีที่ 2: รันแยกทีละหน้าต่าง (Manual Mode)
-หากคุณไม่สะดวกใช้สคริปต์ ให้เปิด Terminal ใหม่ 2 หน้าต่าง:
-**Terminal 1:** 
-```bash
-source /opt/ros/humble/setup.bash
-source ~/Peplink/install/setup.bash
-ros2 run peplink_gps_driver peplink_gps_node
-```
-**Terminal 2:**
-```bash
-source /opt/ros/humble/setup.bash
-source ~/Peplink/install/setup.bash
-ros2 run pttep_alignment alignment_node
-```
+> **⚠️ ข้อควรระวังตอนเริ่มต้น (Auto-Datum):**
+> ทันทีที่รันสคริปต์ Node จะรอจนกว่า **"สัญญาณ GPS นิ่ง"** แล้วมันจะยึดจุดที่คุณยืนอยู่ตอนนั้นเป็นพิกัด (0,0) อัตโนมัติ หากเห็นข้อความเตือน `Waiting for STABLE GPS...` ให้รอสักพักจนกว่าจะขึ้นข้อความว่า `📍 INITIAL DATUM SET!`
 
 ---
 
-## 🕹️ 3. การทำ Alignment (Calibration Process)
+## 🕹️ 3. การจูนพิกัดให้เข้ากับแผนที่ (Alignment Process)
 
-เมื่อโหนดทั้งสองทำงานแล้ว ให้เปิด **Terminal ที่ 3** (หน้าต่างว่างๆ) สำหรับส่งคำสั่งเพื่อตั้งค่าความแม่นยำให้กับระบบ
+เมื่อ Node ทำงานและปัก Datum (0,0) สำเร็จแล้ว หากแกน X, Y ของ GPS ยังไม่ตรงกับแผนที่ Lidar ของหุ่นยนต์ ให้เปิด **Terminal หน้าต่างใหม่** เพื่อส่งคำสั่ง:
 
 ### Step 1: เก็บจุดอ้างอิง (Save Waypoints)
 ให้คุณบังคับหุ่นยนต์ไปในพื้นที่ต่างๆ แล้วจอดนิ่งๆ **อย่างน้อย 3 จุด** (ยิ่งไกลกัน ยิ่งแม่นยำ) 
-เมื่อหุ่นจอดนิ่ง ให้รันคำสั่งนี้เพื่อบันทึกจุด:
+เมื่อหุ่นจอดนิ่ง ให้รันคำสั่ง:
 ```bash
 ros2 service call /save_location std_srvs/srv/Trigger
 ```
-*(ถ้าขึ้นว่า success = true แสดงว่าบันทึกสำเร็จ)*
 
-### Step 2: คำนวณและแปลงพิกัด (Calculate Matrix)
-เมื่อเก็บจุดครบแล้ว ให้สั่งระบบคำนวณสมการเพื่อเริ่มต้นกระบวนการ Real-time Alignment:
+### Step 2: คำนวณ (Calculate Matrix)
+เมื่อเก็บจุดครบแล้ว ให้สั่งระบบคำนวณและเริ่มการดัดพิกัด:
 ```bash
 ros2 service call /calculate_transformation pttep_alignment/srv/CalculateTransformation "{reset: false}"
 ```
+*(หากต้องการรีเซ็ตจุดที่เก็บไว้ให้ส่งค่า `reset: true`)*
 
-### Step 3: ตรวจสอบข้อมูล (Verify Output)
-ระบบจะเริ่มทำงานและส่งข้อมูลพิกัด GPS ที่แปลงให้เข้ากับ Lidar/Odom แล้วออกมาทาง Topic ชื่อ `/aligned_odom` คุณสามารถตรวจสอบได้โดยพิมพ์:
+---
+
+## 📊 4. การวิเคราะห์ข้อมูลย้อนหลัง (Data Analysis)
+หากต้องการทดสอบความแม่นยำจากไฟล์ Log ที่เก็บมา สามารถรันสคริปต์วิเคราะห์ได้เลย:
 ```bash
-ros2 topic echo /aligned_odom
+python3 src/analyze_gps_data.py src/data
 ```
-*ข้อมูลนี้พร้อมถูกนำไปป้อนให้แพ็กเกจนำทาง (Navigation/Localization) เพื่อใช้ขับเคลื่อนอัตโนมัติได้ทันที*
+สคริปต์จะหาจุดที่ดีที่สุดเป็น Origin ให้อัตโนมัติ และแสดงค่า Local XY พร้อม Covariance ของทุกจุด
 
 ---
 
 ## ⚙️ โครงสร้างของข้อมูล (Topic Interface)
 
-การเชื่อมต่อและดึงข้อมูลของระบบ (Topic) จะถูกแบ่งตามระดับการทำงานดังนี้:
+ระบบนี้มี Topic ที่พร้อมให้ทีม Navigation นำไปใช้งานได้ตามความเหมาะสม:
 
-| ประเภทข้อมูล | ชื่อ Topic | ชนิดของ Message (ROS 2) | หน้าที่ |
+| ประเภท | ชื่อ Topic | ROS 2 Type | หน้าที่ / วิธีนำไปใช้ |
 | :--- | :--- | :--- | :--- |
-| **Raw GPS Data** | `/fix` | `sensor_msgs/NavSatFix` | ข้อมูลดิบจาก Peplink พร้อมค่า **Covariance** (ค่า Error สกัดจาก GPGST) เหมาะสำหรับดู Lat/Lon แท้ |
-| **Input GPS Odom** | `/odom` | `nav_msgs/Odometry` | ข้อมูล GPS ที่ถูกแปลงเป็น Local XY เบื้องต้น พร้อมแนบค่า Covariance จากตัวรับสัญญาณ |
-| **Input Lidar Odom**| `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` | ข้อมูลตำแหน่งจาก Lidar หรือ SLAM สำหรับใช้เป็นเป้าหมายในการทาบทับ |
-| **Output Aligned** | `/aligned_odom` | `nav_msgs/Odometry` | **(✨ สำคัญ)** ข้อมูลที่ผ่านการหมุนแกนพิกัดและ **Covariance Rotation** แล้ว พร้อมใช้เดินรถ |
-
-*(คุณสามารถเปลี่ยนชื่อ Topic เหล่านี้ได้ในไฟล์ `src/pttep_alignment/src/alignment_node.cpp`)*
+| **Output** | `/fix` | `sensor_msgs/NavSatFix` | **พิกัดโลกดิบ (Lat/Lon):** พร้อมค่า Covariance สำหรับเอาไปพล็อตลง Google Maps |
+| **Output** | `/peplink/odom` | `nav_msgs/Odometry` | **พิกัดท้องถิ่นเบื้องต้น (Local XY):** แปลงเป็น UTM และหักลบจุดเริ่มให้เป็น 0,0 แล้ว สามารถเอาไปพล็อตเส้นทางใน Rviz2 ดูได้เลยโดยไม่ต้องง้อ TF |
+| **Input** | `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` | **แผนที่หุ่นยนต์:** ข้อมูลจาก Lidar/SLAM เพื่อใช้เป็นเป้าหมายอ้างอิงในการทาบทับพิกัด |
+| **Output** | `/aligned_odom` | `nav_msgs/Odometry` | **(✨ ตัวจบงาน)** ข้อมูล `/peplink/odom` ที่ผ่านการหมุน (SVD Rotation) ให้ทาบทับกับแผนที่ Lidar แล้ว **ทีมหุ่นยนต์สามารถนำ Topic นี้ไปฟีดเข้า EKF (Robot Localization) ได้ทันที** |
