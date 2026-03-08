@@ -4,8 +4,6 @@
 ![C++](https://img.shields.io/badge/C++-14-blue)
 ![Python](https://img.shields.io/badge/Python-3-yellow)
 
-โปรเจกต์นี้คือระบบประมวลผลและแปลงพิกัดข้อมูลดาวเทียมความแม่นยำสูง (High-Precision GPS) สำหรับหุ่นยนต์อัตโนมัติ (AMR) ที่ทำงานในสภาพแวดล้อมนอกอาคาร ระบบถูกออกแบบมาให้ **"ทำงานจบในตัว (Stand-alone)"** โดยอ่านข้อมูล NMEA 0183 ผ่านโปรโตคอล UDP จากอุปกรณ์ **Peplink BR2 Pro** แล้วแปลงพิกัดโลก (Lat/Lon) ให้กลายเป็นพิกัดบนพื้นราบ (Local Cartesian XY) พร้อมระบบดัดพิกัด (Alignment) เพื่อทาบทับกับแผนที่ Lidar ของหุ่นยนต์ได้อย่างสมบูรณ์ โดยไม่ต้องพึ่งพาระบบ TF ภายนอกในขั้นตอนการเริ่มต้น
-
 ## 🌟 ฟีเจอร์หลัก (Key Features)
 
 1. **UDP NMEA Streamer & Covariance Extraction:** อ่านข้อมูล GPS สดจาก Peplink ผ่าน Port `8384` และดึงค่าความคลาดเคลื่อน (Error Ellipse) แบบเรียลไทม์จาก GPGST/DOP
