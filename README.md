@@ -14,7 +14,7 @@
 
 ---
 
-## 🛠️ 1. การติดตั้ง (Installation)
+##  1. การติดตั้ง (Installation)
 
 ### 1.1 ติดตั้ง Library ที่จำเป็น (Dependencies)
 เปิด Terminal และรันคำสั่งเพื่อติดตั้งเครื่องมือพื้นฐาน:
@@ -38,7 +38,7 @@ cd Peplink
 
 ---
 
-## 🚀 2. การเริ่มต้นระบบ (How to Run)
+##  2. การเริ่มต้นระบบ (How to Run)
 
 เราออกแบบระบบให้เริ่มต้นทำงานได้ง่ายที่สุดผ่าน `tmux`:
 
@@ -55,7 +55,7 @@ cd ~/Peplink
 
 ---
 
-## 🕹️ 3. การจูนพิกัดให้เข้ากับแผนที่ (Alignment Process)
+##  3. การจูนพิกัดให้เข้ากับแผนที่ (Alignment Process)
 
 เมื่อ Node ทำงานและปัก Datum (0,0) สำเร็จแล้ว หากแกน X, Y ของ GPS ยังไม่ตรงกับแผนที่ Lidar ของหุ่นยนต์ ให้เปิด **Terminal หน้าต่างใหม่** เพื่อส่งคำสั่ง:
 
@@ -75,7 +75,7 @@ ros2 service call /calculate_transformation pttep_alignment/srv/CalculateTransfo
 
 ---
 
-## 📊 4. การวิเคราะห์ข้อมูลย้อนหลัง (Data Analysis)
+##  4. การวิเคราะห์ข้อมูลย้อนหลัง (Data Analysis)
 หากต้องการทดสอบความแม่นยำจากไฟล์ Log ที่เก็บมา สามารถรันสคริปต์วิเคราะห์ได้เลย:
 ```bash
 python3 src/analyze_gps_data.py src/data
