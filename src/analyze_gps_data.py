@@ -2,21 +2,27 @@
 import rclpy
 from rclpy.node import Node
 import utm
-import sys
 import os
 import math
+import argparse
+from typing import List, Dict, Any, Optional
 
-class GPSDataAnalyzer(Node):
+class GpsDataAnalyzer(Node):
+    """
+    ROS 2 Node for analyzing GPS log files. 
+    It evaluates position covariance, selects the most accurate datum, 
+    and computes local Cartesian coordinates (Local Odometry).
+    """
     def __init__(self):
         super().__init__('gps_data_analyzer')
-        
-    def process_file(self, file_path):
-        if not os.path.exists(file_path):
-            self.get_logger().error(f"❌ File not found: {file_path}")
-            return
 
-        self.get_logger().info(f"📂 กำลังอ่านไฟล์ GPS Log: {file_path}")
-        
+    def parse_gps_log(self, file_path: str) -> List[Dict[str, Any]]:
+        """Parses the custom GPS log file and calculates error magnitude."""
+        if not os.path.exists(file_path):
+            self.get_logger().error(f"File not found: {file_path}")
+            return []
+
+        self.get_logger().info(f"Reading GPS log file: {file_path}")
         waypoints = []
         
         try:
@@ -26,105 +32,120 @@ class GPSDataAnalyzer(Node):
             docs = content.split('---')
             count = 1
             
-            # --- PHASE 1: กวาดข้อมูลทั้งหมดและคำนวณ Error ---
             for doc in docs:
-                if 'latitude' in doc:
-                    lines = doc.strip().split('\n')
-                    lat, lon = None, None
-                    cov_start = False
-                    cov = []
-                    cov_type = None
+                if 'latitude' not in doc:
+                    continue
                     
-                    for line in lines:
-                        if line.startswith('latitude:'):
-                            lat = float(line.split(':')[1].strip())
-                        elif line.startswith('longitude:'):
-                            lon = float(line.split(':')[1].strip())
-                        elif line.startswith('position_covariance:'):
-                            cov_start = True
-                        elif cov_start and line.startswith('-'):
-                            cov.append(float(line.replace('-','').strip()))
-                        elif line.startswith('position_covariance_type:'):
-                            cov_start = False
-                            cov_type = int(line.split(':')[1].strip())
-                            
-                    if lat and lon and len(cov) == 9:
-                        # คำนวณ Error รวบยอดจาก Covariance (X และ Y)
-                        # variance_x = cov[0], variance_y = cov[4]
-                        # เอามาหา RMS Error (Root Mean Square) เป็นตัวแทนความคลาดเคลื่อน
-                        error_magnitude = math.sqrt(cov[0] + cov[4])
+                lines = doc.strip().split('\n')
+                lat, lon = None, None
+                cov_start = False
+                cov = []
+                cov_type = None
+                
+                for line in lines:
+                    line = line.strip()
+                    if line.startswith('latitude:'):
+                        lat = float(line.split(':')[1].strip())
+                    elif line.startswith('longitude:'):
+                        lon = float(line.split(':')[1].strip())
+                    elif line.startswith('position_covariance:'):
+                        cov_start = True
+                    elif cov_start and line.startswith('-'):
+                        cov.append(float(line.replace('-', '').strip()))
+                    elif line.startswith('position_covariance_type:'):
+                        cov_start = False
+                        cov_type = int(line.split(':')[1].strip())
                         
-                        waypoints.append({
-                            'id': count,
-                            'lat': lat,
-                            'lon': lon,
-                            'cov': cov,
-                            'cov_type': cov_type,
-                            'error_mag': error_magnitude
-                        })
-                        count += 1
-
-            if not waypoints:
-                self.get_logger().warning("⚠️ ไม่พบข้อมูล GPS ที่สมบูรณ์ในไฟล์")
-                return
-
-            self.get_logger().info(f"✅ โหลดข้อมูลสำเร็จทั้งหมด {len(waypoints)} จุด")
-
-            # --- PHASE 2: หาจุดที่ Error น้อยที่สุด เพื่อตั้งเป็น Origin ---
-            # เรียงลำดับจาก error น้อยไปมาก
-            best_point = min(waypoints, key=lambda x: x['error_mag'])
-            
-            # แปลงจุดที่ดีที่สุดเป็น UTM เพื่อใช้เป็น Datum (0,0)
-            datum_easting, datum_northing, zone_num, zone_letter = utm.from_latlon(best_point['lat'], best_point['lon'])
-            
-            self.get_logger().info("\n=======================================================")
-            self.get_logger().info(" 🎯 [DATUM SELECTED] เจอจุดกำเนิดที่แม่นยำที่สุดแล้ว!")
-            self.get_logger().info(f"    ใช้จุดที่ #{best_point['id']} เป็น Origin (0,0)")
-            self.get_logger().info(f"    Lat/Lon : {best_point['lat']:.7f}, {best_point['lon']:.7f}")
-            self.get_logger().info(f"    UTM     : X={datum_easting:.2f}, Y={datum_northing:.2f} (Zone {zone_num}{zone_letter})")
-            self.get_logger().info(f"    Error   : {best_point['error_mag']:.2f}")
-            self.get_logger().info("=======================================================\n")
-
-            # --- PHASE 3: คำนวณ XY ทุกจุดอ้างอิงกับ Origin และแสดงผล ---
-            self.get_logger().info("📍 สรุปพิกัด Local Odom (XY) ของทุกจุดเทียบกับ Origin:")
-            for pt in waypoints:
-                # 1. แปลงเป็น UTM
-                e, n, _, _ = utm.from_latlon(pt['lat'], pt['lon'])
-                
-                # 2. หักลบ Origin เพื่อให้เป็น Local XY (เมตร)
-                local_x = e - datum_easting
-                local_y = n - datum_northing
-                
-                # 3. จัดการแสดงผล Covariance (เอาแค่ X, Y โชว์ให้ดูง่าย)
-                cov_xx = pt['cov'][0]
-                cov_yy = pt['cov'][4]
-                
-                # พิมพ์ ROS Log
-                log_msg = (
-                    f"Point #{pt['id']:02d} | "
-                    f"Local XY: [{local_x:7.2f}, {local_y:7.2f}] m | "
-                    f"Cov (XX,YY): [{cov_xx:5.2f}, {cov_yy:5.2f}] | "
-                    f"Type: {pt['cov_type']} | "
-                    f"Error Mag: {pt['error_mag']:.2f}"
-                )
-                
-                if pt['id'] == best_point['id']:
-                    self.get_logger().info(f"⭐ {log_msg}  <-- [ORIGIN]")
-                else:
-                    self.get_logger().info(f"   {log_msg}")
-
-            self.get_logger().info("\n🏁 ประมวลผลเสร็จสิ้น สามารถนำค่า Local XY ไปเทียบกับ Lidar Odom ได้เลย!")
-
+                if lat is not None and lon is not None and len(cov) == 9:
+                    # Calculate Root Mean Square Error from Covariance X and Y
+                    error_magnitude = math.sqrt(cov[0] + cov[4])
+                    waypoints.append({
+                        'id': count,
+                        'lat': lat,
+                        'lon': lon,
+                        'cov': cov,
+                        'cov_type': cov_type,
+                        'error_mag': error_magnitude
+                    })
+                    count += 1
+                    
         except Exception as e:
-            self.get_logger().error(f"❌ Failed to parse file: {e}")
+            self.get_logger().error(f"Failed to parse file: {e}")
+            
+        return waypoints
+
+    def find_optimal_datum(self, waypoints: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+        """Finds the waypoint with the lowest error magnitude to serve as the datum."""
+        if not waypoints:
+            return None
+        return min(waypoints, key=lambda x: x['error_mag'])
+
+    def compute_and_log_local_odom(self, waypoints: List[Dict[str, Any]], datum: Dict[str, Any]) -> None:
+        """Computes local XY coordinates relative to the datum and logs the results."""
+        datum_easting, datum_northing, zone_num, zone_letter = utm.from_latlon(datum['lat'], datum['lon'])
+        
+        self.get_logger().info("=======================================================")
+        self.get_logger().info("[DATUM SELECTED] Optimal origin found.")
+        self.get_logger().info(f"Origin Point ID : {datum['id']}")
+        self.get_logger().info(f"Lat/Lon         : {datum['lat']:.7f}, {datum['lon']:.7f}")
+        self.get_logger().info(f"UTM Origin      : X={datum_easting:.2f}, Y={datum_northing:.2f} (Zone {zone_num}{zone_letter})")
+        self.get_logger().info(f"Error Magnitude : {datum['error_mag']:.4f}")
+        self.get_logger().info("=======================================================")
+        self.get_logger().info("Local Odometry (XY) relative to Origin:")
+
+        for pt in waypoints:
+            e, n, _, _ = utm.from_latlon(pt['lat'], pt['lon'])
+            local_x = e - datum_easting
+            local_y = n - datum_northing
+            
+            cov_xx = pt['cov'][0]
+            cov_yy = pt['cov'][4]
+            
+            log_msg = (
+                f"ID: {pt['id']:02d} | "
+                f"Local XY: [{local_x:7.2f}, {local_y:7.2f}] m | "
+                f"Cov(XX,YY): [{cov_xx:5.2f}, {cov_yy:5.2f}] | "
+                f"Err: {pt['error_mag']:.2f}"
+            )
+            
+            if pt['id'] == datum['id']:
+                self.get_logger().info(f"  -> {log_msg}  [ORIGIN]")
+            else:
+                self.get_logger().info(f"     {log_msg}")
+
+    def process_data(self, file_path: str) -> None:
+        """Main execution flow for processing the GPS log."""
+        waypoints = self.parse_gps_log(file_path)
+        
+        if not waypoints:
+            self.get_logger().warning("No valid GPS data found in the provided file.")
+            return
+            
+        self.get_logger().info(f"Successfully loaded {len(waypoints)} valid data points.")
+        
+        datum = self.find_optimal_datum(waypoints)
+        if datum:
+            self.compute_and_log_local_odom(waypoints, datum)
+            self.get_logger().info("Processing complete. Local XY coordinates are ready to be compared with Lidar Odometry.")
 
 def main(args=None):
     rclpy.init(args=args)
-    node = GPSDataAnalyzer()
     
-    target_file = sys.argv[1] if len(sys.argv) > 1 else '/home/peaxtt/PaYae/Fibo-work/peplink/src/data'
+    # Use argparse for robust command-line argument handling
+    parser = argparse.ArgumentParser(description="Analyze GPS logs and compute local Cartesian coordinates.")
+    parser.add_argument(
+        '--file', 
+        type=str, 
+        default='/home/peaxtt/PaYae/Fibo-work/peplink/src/data',
+        help='Path to the GPS log file.'
+    )
     
-    node.process_file(target_file)
+    # Parse arguments specifically for the node, ignoring default ROS 2 args
+    parsed_args, ros_args = parser.parse_known_args()
+    
+    node = GpsDataAnalyzer()
+    node.process_data(parsed_args.file)
+    
     node.destroy_node()
     rclpy.shutdown()
 
