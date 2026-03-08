@@ -109,7 +109,7 @@ const double YAW_OFFSET = 0.0;              // ชดเชยองศาขอ
 **2. ตั้งค่าฝั่ง Alignment (`src/pttep_alignment/src/alignment_node.cpp`)**
 ```cpp
 const std::string TOPIC_LIDAR = "/current_pose"; // Topic อ้างอิงจากแผนที่หุ่นยนต์
-const std::string TOPIC_GPS   = "/odom";         // (ไม่ต้องแก้) รับค่า Local Odom 
+const std::string TOPIC_GPS   = "/peplink/odom"; // (รับค่า Local Odom จากโหนด GPS ของเรา)
 const std::string TOPIC_ALIGNED_GPS = "/aligned_odom"; // Topic ขาออกที่พร้อมใช้งาน
 ```
 *💡 หมายเหตุ: ทุกครั้งที่มีการแก้ไขไฟล์ `.cpp` ต้องรันคำสั่ง `colcon build` ใหม่เสมอ*

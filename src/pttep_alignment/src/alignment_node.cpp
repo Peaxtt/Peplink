@@ -14,7 +14,7 @@ class AlignmentSolver : public rclcpp::Node {
     //  USER CONFIGURATION
     // =========================================================
     const std::string TOPIC_LIDAR = "/current_pose"; 
-    const std::string TOPIC_GPS   = "/odom";         
+    const std::string TOPIC_GPS   = "/peplink/odom";         
     const std::string TOPIC_ALIGNED_GPS = "/aligned_odom"; // NEW
     const double MAX_TIME_DIFF    = 1.0;             
     // =========================================================
