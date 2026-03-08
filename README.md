@@ -1,25 +1,32 @@
 # 🛰️ Peplink GPS to Odometry Alignment System
 
-![ROS 2 Humble](https://img.shields.io/badge/ROS_2-Humble-blue)
-![C++](https://img.shields.io/badge/C++-14-blue)
-![Python](https://img.shields.io/badge/Python-3-yellow)
+![ROS 2](https://img.shields.io/badge/ROS_2-Humble-blue?logo=ros)
+![C++](https://img.shields.io/badge/C++-14-blue?logo=c%2B%2B)
+![Python](https://img.shields.io/badge/Python-3.10-yellow?logo=python)
 
-โปรเจกต์นี้คือระบบประมวลผลและแปลงพิกัดข้อมูลดาวเทียมความแม่นยำสูง (High-Precision GPS) สำหรับหุ่นยนต์อัตโนมัติ (AMR) ที่ทำงานในสภาพแวดล้อมนอกอาคาร ระบบถูกออกแบบมาให้ **"ทำงานจบในตัว (Stand-alone)"** โดยอ่านข้อมูล NMEA 0183 ผ่านโปรโตคอล UDP จากอุปกรณ์ **Peplink BR2 Pro** แล้วแปลงพิกัดโลก (Lat/Lon) ให้กลายเป็นพิกัดบนพื้นราบ (Local Cartesian XY) พร้อมระบบดัดพิกัด (Alignment) เพื่อทาบทับกับแผนที่ Lidar ของหุ่นยนต์ได้อย่างสมบูรณ์ โดยไม่ต้องพึ่งพาระบบ TF ภายนอกในขั้นตอนการเริ่มต้น
-
-## 🌟 ฟีเจอร์หลัก (Key Features)
-
-1. **UDP NMEA Streamer & Covariance Extraction:** อ่านข้อมูล GPS สดจาก Peplink ผ่าน Port `8384` และดึงค่าความคลาดเคลื่อน (Error Ellipse) แบบเรียลไทม์จาก GPGST/DOP
-2. **Built-in UTM Transformation & Auto-Datum:** แปลง Lat/Lon เป็น UTM (Easting/Northing) ให้อัตโนมัติ พร้อมระบบ **"Stable Auto-Datum"** ที่จะคัดกรองสัญญาณ GPS ที่นิ่งพอ (เช่น Error < 4m หรือ HDOP < 2.0) เพื่อยึดเป็นจุดกำเนิด (0,0) ทันทีตอนเปิดเครื่อง
-3. **Automated Alignment (SVD):** สามารถเดินหุ่นยนต์เก็บจุด Waypoint แล้วกดคำนวณด้วยสมการ Weighted SVD เพื่อหา Matrix การหมุนและเลื่อน (Rotation & Translation) ที่แม่นยำที่สุด
-4. **Real-time Covariance & Pose Rotation:** พ่นค่าพิกัด XY พร้อมค่า Covariance ที่ดัดให้ตรงกับทิศทางแผนที่หุ่นยนต์แล้วผ่าน Topic `/aligned_odom` (10Hz) เพื่อให้ระบบนำทาง (เช่น EKF) ใช้งานได้ทันที
-5. **Data Analysis Script:** มาพร้อมสคริปต์ Python สำหรับรันวิเคราะห์ไฟล์ Log GPS ย้อนหลัง เพื่อหาจุด Origin ที่ดีที่สุดและแปลงค่า XY สำหรับการประเมินความแม่นยำ
+ระบบประมวลผลและแปลงพิกัดข้อมูลดาวเทียมความแม่นยำสูง (High-Precision GPS) สำหรับหุ่นยนต์อัตโนมัติ (AMR) ที่ปฏิบัติงานนอกอาคาร ระบบถูกออกแบบภายใต้สถาปัตยกรรม **Stand-alone** เพื่อลดความซับซ้อนในการตั้งค่า โดยสามารถรับข้อมูล NMEA จากอุปกรณ์ **Peplink BR2 Pro** ผ่านโปรโตคอล UDP และทำการแปลงพิกัดภูมิศาสตร์ (Lat/Lon) เป็นพิกัดคาร์ทีเซียน (Local XY) พร้อมประมวลผลการหมุนและทาบทับแกน (Alignment) ให้สอดคล้องกับแผนที่ Lidar ของหุ่นยนต์ได้อย่างสมบูรณ์
 
 ---
 
-## 🛠️ 1. การติดตั้ง (Installation)
+## 🌟 คุณสมบัติเด่น (Key Features)
 
-### 1.1 ติดตั้ง Library ที่จำเป็น (Dependencies)
-เปิด Terminal และรันคำสั่งเพื่อติดตั้งเครื่องมือพื้นฐาน:
+1. **UDP NMEA Streamer & Covariance Extraction**
+   อ่านข้อมูล GPS แบบ Real-time ผ่าน UDP Port `8384` พร้อมดึงค่าความคลาดเคลื่อน (Error Ellipse) เชิงลึกจากประโยค GPGST และ DOP
+2. **Built-in UTM Transformation & Auto-Datum**
+   แปลงพิกัด Lat/Lon เป็น UTM (Easting/Northing) ให้อัตโนมัติ พร้อมระบบ **Stable Auto-Datum** ที่จะคัดกรองเฉพาะสัญญาณ GPS ที่มีความเสถียร (เช่น Error < 4m หรือ HDOP < 2.0) เพื่อตั้งเป็นจุดกำเนิดพิกัด (Origin: 0,0) ทันทีเมื่อเปิดระบบ
+3. **Automated Alignment (SVD)**
+   ระบบคำนวณการจัดแนวมุมและตำแหน่ง (Rotation & Translation Matrix) โดยอิงจากอัลกอริทึม Weighted SVD (Singular Value Decomposition) เพื่อให้พิกัด GPS ทาบทับกับแผนที่ Lidar ได้อย่างแม่นยำที่สุด
+4. **Real-time Covariance & Pose Rotation**
+   เผยแพร่พิกัดแกน XY พร้อมค่า Covariance ที่ผ่านการหมุนปรับแก้ทิศทางแล้ว ผ่าน Topic `/aligned_odom` (10Hz) เพื่อให้ระบบ Navigation Stack (เช่น EKF) นำไปใช้งานได้ทันที
+5. **Data Analysis & Validation Script**
+   เครื่องมือ Python สำหรับวิเคราะห์ไฟล์ Log เพื่อประเมินความแม่นยำย้อนหลัง โดยระบบจะค้นหาจุด Origin ที่ดีที่สุดโดยอัตโนมัติ และแสดงค่าพิกัด Local XY สำหรับการตรวจสอบ
+
+---
+
+## 🛠️ การติดตั้ง (Installation)
+
+### 1. ติดตั้ง Dependencies
+เปิด Terminal และรันคำสั่งเพื่อติดตั้งเครื่องมือพื้นฐานและไลบรารีที่จำเป็น:
 ```bash
 sudo apt update
 sudo apt install -y build-essential git tmux libeigen-dev python3-pip
@@ -27,72 +34,74 @@ sudo apt install -y ros-humble-geometry-msgs ros-humble-nav-msgs ros-humble-std-
 pip install pyproj utm
 ```
 
-### 1.2 โคลนและ Build โปรเจค (Clone & Build)
+### 2. โคลนและ Build โปรเจกต์
 ```bash
-# 1. โคลน Repository ไปไว้ในเครื่อง
+# โคลน Repository ไปยัง Workspace ของคุณ
 cd ~
 git clone https://github.com/Peaxtt/Peplink.git
 
-# 2. เข้าไปในโฟลเดอร์ และสั่งรันระบบ (ครั้งแรกระบบจะ Build ให้อัตโนมัติ)
+# รันสคริปต์เพื่อ Build และเริ่มต้นระบบ (ระบบจะ Build อัตโนมัติในครั้งแรก)
 cd Peplink
 ./start_peplink.sh
 ```
 
 ---
 
-## 🚀 2. การเริ่มต้นระบบ (How to Run)
+## 🚀 การเริ่มต้นระบบ (Usage)
 
-เราออกแบบระบบให้เริ่มต้นทำงานได้ง่ายที่สุดผ่าน `tmux`:
+เพื่อความสะดวกในการปฏิบัติงานหน้างาน ระบบถูกตั้งค่าให้รันผ่าน `tmux` โดยอัตโนมัติ:
 
-### รันด้วยสคริปต์อัตโนมัติ (แนะนำ ⭐)
-เปิด Terminal และใช้คำสั่งนี้คำสั่งเดียว:
 ```bash
 cd ~/Peplink
 ./start_peplink.sh
 ```
-*ระบบจะเปิดหน้าต่าง 2 ฝั่ง (ซ้าย: GPS, ขวา: Alignment Solver) หากต้องการปิด ให้รัน `./start_peplink.sh stop`*
+*ระบบจะแบ่งหน้าต่าง Terminal ออกเป็น 2 ส่วน (ซ้าย: โหนดประมวลผล GPS, ขวา: โหนด Alignment)*  
+*(หากต้องการยุติการทำงานทั้งหมด ให้ใช้คำสั่ง: `./start_peplink.sh stop`)*
 
-> **⚠️ ข้อควรระวังตอนเริ่มต้น (Auto-Datum):**
-> ทันทีที่รันสคริปต์ Node จะรอจนกว่า **"สัญญาณ GPS นิ่ง"** แล้วมันจะยึดจุดที่คุณยืนอยู่ตอนนั้นเป็นพิกัด (0,0) อัตโนมัติ หากเห็นข้อความเตือน `Waiting for STABLE GPS...` ให้รอสักพักจนกว่าจะขึ้นข้อความว่า `📍 INITIAL DATUM SET!`
+> **⚠️ ข้อควรระวัง (Auto-Datum Initialization):**
+> ทันทีที่ระบบเริ่มทำงาน โหนดจะรอจนกว่า **"คุณภาพของสัญญาณ GPS จะอยู่ในเกณฑ์ที่เสถียร"** ก่อนที่จะยึดตำแหน่งปัจจุบันเป็นพิกัดอ้างอิง (0,0)
+> หากพบข้อความ `Waiting for STABLE GPS...` โปรดรอจนกว่าระบบจะแจ้งเตือนว่า `📍 INITIAL DATUM SET!`
 
 ---
 
-## 🕹️ 3. การจูนพิกัดให้เข้ากับแผนที่ (Alignment Process)
+## 🕹️ กระบวนการปรับแก้พิกัด (Alignment Process)
 
-เมื่อ Node ทำงานและปัก Datum (0,0) สำเร็จแล้ว หากแกน X, Y ของ GPS ยังไม่ตรงกับแผนที่ Lidar ของหุ่นยนต์ ให้เปิด **Terminal หน้าต่างใหม่** เพื่อส่งคำสั่ง:
+เมื่อระบบกำหนดจุด Datum (0,0) สำเร็จแล้ว หากต้องการดัดแกน X, Y ของ GPS ให้ขนานและทาบทับกับแผนที่ Lidar ให้เปิด **Terminal ใหม่** และทำตามขั้นตอนดังนี้:
 
-### Step 1: เก็บจุดอ้างอิง (Save Waypoints)
-ให้คุณบังคับหุ่นยนต์ไปในพื้นที่ต่างๆ แล้วจอดนิ่งๆ **อย่างน้อย 3 จุด** (ยิ่งไกลกัน ยิ่งแม่นยำ) 
-เมื่อหุ่นจอดนิ่ง ให้รันคำสั่ง:
+### 1. บันทึกจุดอ้างอิง (Save Waypoints)
+เคลื่อนที่หุ่นยนต์ไปยังตำแหน่งต่างๆ และหยุดนิ่ง **อย่างน้อย 3 จุด** (ระยะห่างระหว่างจุดที่มากขึ้น จะช่วยเพิ่มความแม่นยำ) 
+ณ แต่ละจุด ให้รันคำสั่งเพื่อบันทึกพิกัด:
 ```bash
 ros2 service call /save_location std_srvs/srv/Trigger
 ```
 
-### Step 2: คำนวณ (Calculate Matrix)
-เมื่อเก็บจุดครบแล้ว ให้สั่งระบบคำนวณและเริ่มการดัดพิกัด:
+### 2. คำนวณสมการ (Calculate Matrix)
+เมื่อบันทึกจุดครบถ้วนแล้ว ให้สั่งรันการคำนวณ SVD เพื่อเริ่มกระบวนการดัดพิกัดแบบ Real-time:
 ```bash
 ros2 service call /calculate_transformation pttep_alignment/srv/CalculateTransformation "{reset: false}"
 ```
-*(หากต้องการรีเซ็ตจุดที่เก็บไว้ให้ส่งค่า `reset: true`)*
+*(กรณีที่ต้องการล้างค่าที่บันทึกไว้เพื่อเริ่มต้นใหม่ ให้ปรับพารามิเตอร์เป็น `reset: true`)*
 
 ---
 
-## 📊 4. การวิเคราะห์ข้อมูลย้อนหลัง (Data Analysis)
-หากต้องการทดสอบความแม่นยำจากไฟล์ Log ที่เก็บมา สามารถรันสคริปต์วิเคราะห์ได้เลย:
+## 📊 การวิเคราะห์ข้อมูลย้อนหลัง (Data Analysis)
+
+สำหรับทีม Data หรือผู้ที่ต้องการวิเคราะห์ค่าความคลาดเคลื่อนจากไฟล์ Log (YAML/TXT) สามารถใช้สคริปต์วิเคราะห์ได้ทันที:
+
 ```bash
 python3 src/analyze_gps_data.py src/data
 ```
-สคริปต์จะหาจุดที่ดีที่สุดเป็น Origin ให้อัตโนมัติ และแสดงค่า Local XY พร้อม Covariance ของทุกจุด
+*สคริปต์จะทำการค้นหาจุดที่มี Covariance ต่ำที่สุดเพื่อตั้งเป็น Origin และรายงานพิกัด Local XY พร้อมค่า Error ของทุกจุดในรูปแบบที่นำไปพลอตเปรียบเทียบได้ทันที*
 
 ---
 
-## ⚙️ โครงสร้างของข้อมูล (Topic Interface)
+## ⚙️ โครงสร้างข้อมูล (Topic Interface)
 
-ระบบนี้มี Topic ที่พร้อมให้ทีม Navigation นำไปใช้งานได้ตามความเหมาะสม:
+ระบบเผยแพร่ข้อมูล (Topics) ที่พร้อมให้ทีม Navigation นำไปปรับใช้ตามความเหมาะสมของสถาปัตยกรรมหุ่นยนต์:
 
-| ประเภท | ชื่อ Topic | ROS 2 Type | หน้าที่ / วิธีนำไปใช้ |
-| :--- | :--- | :--- | :--- |
-| **Output** | `/fix` | `sensor_msgs/NavSatFix` | **พิกัดโลกดิบ (Lat/Lon):** พร้อมค่า Covariance สำหรับเอาไปพล็อตลง Google Maps |
-| **Output** | `/peplink/odom` | `nav_msgs/Odometry` | **พิกัดท้องถิ่นเบื้องต้น (Local XY):** แปลงเป็น UTM และหักลบจุดเริ่มให้เป็น 0,0 แล้ว สามารถเอาไปพล็อตเส้นทางใน Rviz2 ดูได้เลยโดยไม่ต้องง้อ TF |
-| **Input** | `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` | **แผนที่หุ่นยนต์:** ข้อมูลจาก Lidar/SLAM เพื่อใช้เป็นเป้าหมายอ้างอิงในการทาบทับพิกัด |
-| **Output** | `/aligned_odom` | `nav_msgs/Odometry` | **(✨ ตัวจบงาน)** ข้อมูล `/peplink/odom` ที่ผ่านการหมุน (SVD Rotation) ให้ทาบทับกับแผนที่ Lidar แล้ว **ทีมหุ่นยนต์สามารถนำ Topic นี้ไปฟีดเข้า EKF (Robot Localization) ได้ทันที** |
+| ทิศทาง | ชื่อ Topic | ROS 2 Type | คำอธิบาย / การนำไปใช้งาน |
+| :---: | :--- | :--- | :--- |
+| 📤 **Output** | `/fix` | `sensor_msgs/NavSatFix` | **พิกัดระดับโลก (Lat/Lon):** ข้อมูลดิบพร้อมค่า Covariance เหมาะสำหรับการนำไปพลอตบน Google Maps หรือ Web UI |
+| 📤 **Output** | `/peplink/odom` | `nav_msgs/Odometry` | **พิกัดระดับท้องถิ่น (Local XY):** ข้อมูลที่ถูกแปลงเป็น UTM และหักลบจุดกำเนิดเป็น (0,0) แล้ว สามารถพลอตเส้นทางใน Rviz2 ได้อิสระ |
+| 📥 **Input** | `/current_pose` | `geometry_msgs/PoseWithCovarianceStamped` | **พิกัดเป้าหมาย:** ข้อมูลตำแหน่งจากระบบ Lidar/SLAM เพื่อใช้เป็นเป้าหมายอ้างอิงในการคำนวณ Alignment |
+| 📤 **Output** | `/aligned_odom` | `nav_msgs/Odometry` | **(⭐ ข้อมูลหลัก)** พิกัด `/peplink/odom` ที่ผ่านกระบวนการหมุนด้วย SVD ให้ทาบทับกับแผนที่ Lidar แล้ว **พร้อมนำไปป้อนเข้า Robot Localization (EKF) ทันที** |
