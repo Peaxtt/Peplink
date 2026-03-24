@@ -1,11 +1,10 @@
-import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
     return LaunchDescription([
         # ---------------------------------------------------------
-        # Node 1: Peplink GPS Driver (รับ UDP -> /fix)
+        # Node 1: Peplink GPS Driver (Raw GPS via UDP)
         # ---------------------------------------------------------
         Node(
             package='peplink_gps_driver',
@@ -15,21 +14,26 @@ def generate_launch_description():
         ),
 
         # ---------------------------------------------------------
-        # Node 2: UTM Converter (แปลง /fix -> /odom)
+        # Node 2: UTM Local Odom (Auto-Datum & XY Conversion)
         # ---------------------------------------------------------
         Node(
-            package='gps_tools',
-            executable='utm_odometry_node',
+            package='utm_local_odom',
+            executable='utm_local_odom_node',
             name='utm_converter',
             output='screen',
-            parameters=[{
-                'append_zone': True,       # สำคัญ! ต้องมี Zone
-                'use_odometry_yaw': False,
-                'rot_covariance': 99999.0
-            }],
             remappings=[
-                ('fix', '/fix'),
-                ('odom', '/odom')  # ส่งออกไปชื่อ /odom รอไว้
+                ('/fix', '/fix'),
+                ('/peplink/odom', '/peplink/odom')
             ]
+        ),
+
+        # ---------------------------------------------------------
+        # Node 3: PTTEP Alignment (SVD Calibration)
+        # ---------------------------------------------------------
+        Node(
+            package='pttep_alignment',
+            executable='alignment_node',
+            name='alignment_node',
+            output='screen'
         )
     ])
