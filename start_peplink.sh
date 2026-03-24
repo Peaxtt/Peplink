@@ -44,7 +44,7 @@ if [ $? == 0 ]; then
   exit 0
 fi
 
-echo "Starting Peplink GPS and Alignment nodes in a new tmux session..."
+echo "Starting Peplink GPS, UTM, and Alignment nodes in a new tmux session..."
 
 # 1. Create a new tmux session in DETACHED mode. This creates Window 0, Pane 0.
 tmux new-session -d -s $SESSION_NAME -n "system"
@@ -53,18 +53,31 @@ tmux new-session -d -s $SESSION_NAME -n "system"
 tmux send-keys -t $SESSION_NAME:0.0 "cd \"$DIR\"" C-m
 tmux send-keys -t $SESSION_NAME:0.0 "source /opt/ros/humble/setup.bash" C-m
 tmux send-keys -t $SESSION_NAME:0.0 "source install/setup.bash" C-m
-tmux send-keys -t $SESSION_NAME:0.0 "clear && echo -e '\033[1;32m[GPS NODE STARTED]\033[0m'" C-m
+tmux send-keys -t $SESSION_NAME:0.0 "clear && echo -e '\033[1;32m[GPS RAW NODE STARTED]\033[0m'" C-m
 tmux send-keys -t $SESSION_NAME:0.0 "ros2 run peplink_gps_driver peplink_gps_node" C-m
 
 # 3. Split Window horizontally (creates right pane: Pane 1)
 tmux split-window -t $SESSION_NAME:0.0 -h
 
-# Setup Pane 1 (Right) - Alignment Node
+# 4. Setup Pane 1 (Middle) - UTM Node
 tmux send-keys -t $SESSION_NAME:0.1 "cd \"$DIR\"" C-m
 tmux send-keys -t $SESSION_NAME:0.1 "source /opt/ros/humble/setup.bash" C-m
 tmux send-keys -t $SESSION_NAME:0.1 "source install/setup.bash" C-m
-tmux send-keys -t $SESSION_NAME:0.1 "clear && echo -e '\033[1;36m[ALIGNMENT NODE STARTED]\033[0m'" C-m
-tmux send-keys -t $SESSION_NAME:0.1 "ros2 run pttep_alignment alignment_node" C-m
+tmux send-keys -t $SESSION_NAME:0.1 "clear && echo -e '\033[1;33m[UTM ODOM PACKAGE STARTED]\033[0m'" C-m
+tmux send-keys -t $SESSION_NAME:0.1 "ros2 run utm_local_odom utm_local_odom_node" C-m
+
+# 5. Split Window horizontally again (creates right pane: Pane 2)
+tmux split-window -t $SESSION_NAME:0.1 -h
+
+# 6. Setup Pane 2 (Right) - Alignment Node
+tmux send-keys -t $SESSION_NAME:0.2 "cd \"$DIR\"" C-m
+tmux send-keys -t $SESSION_NAME:0.2 "source /opt/ros/humble/setup.bash" C-m
+tmux send-keys -t $SESSION_NAME:0.2 "source install/setup.bash" C-m
+tmux send-keys -t $SESSION_NAME:0.2 "clear && echo -e '\033[1;36m[ALIGNMENT NODE STARTED]\033[0m'" C-m
+tmux send-keys -t $SESSION_NAME:0.2 "ros2 run pttep_alignment alignment_node" C-m
+
+# 7. Resize panes to be equal
+tmux select-layout -t $SESSION_NAME:0 even-horizontal
 
 # Attach to the session and bring it to foreground
 tmux attach-session -t $SESSION_NAME
