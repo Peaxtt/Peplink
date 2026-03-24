@@ -20,8 +20,5 @@ install(TARGETS peplink_gps_node
   DESTINATION lib/${PROJECT_NAME})
 
 # Install Launch Files
-install(DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}
-)
 
 ament_package()
